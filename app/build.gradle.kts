@@ -1,8 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.compose.compiler)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -29,17 +31,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
     }
     composeOptions{
-        kotlinCompilerExtensionVersion = "1.5.0"
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
     packaging {
         resources {
@@ -59,8 +61,18 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    //Firebase authentication and firestore database
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.firestore.ktx)
+
     //Ksp room
     ksp(libs.androidx.room.compiler)
+    //Ksp lifecycle
+    ksp(libs.androidx.lifecycle.compiler)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -72,6 +84,12 @@ dependencies {
     // For local unit tests
     testImplementation(libs.hilt.android.testing)
     kspTest(libs.hilt.compiler)
+
+    //Navigation with Compose
+    implementation(libs.androidx.navigation.compose)
+
+    //Hilt view model with compose
+    implementation(libs.androidx.hilt.navigation.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
